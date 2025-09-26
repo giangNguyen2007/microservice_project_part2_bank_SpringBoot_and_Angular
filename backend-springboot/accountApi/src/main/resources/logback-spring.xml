@@ -1,0 +1,31 @@
+<configuration>
+    <appender name="MYAPP_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Bright green logger name, yellow message -->
+<!--            <pattern>%d{HH:mm:ss} %highlight(%-5level){FATAL=red, ERROR=red, WARN=yellow, INFO=bright_green, DEBUG=cyan, TRACE=blue}-->
+<!--                %cyan(%logger{36}) - %yellow(%msg)%n</pattern>-->
+
+            <pattern>%d{HH:mm:ss} %highlight(%-5level) %cyan(%logger{36}) - %yellow(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SPRING_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--  plain or light gray -->
+            <pattern>%d{HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="gng.learning.accountapi" level="DEBUG" additivity="false">
+        <appender-ref ref="MYAPP_CONSOLE"/>
+    </logger>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="SPRING_CONSOLE"/>
+    </logger>
+
+    <!-- Root logger (for everything else not explicitly listed) -->
+    <root level="INFO">
+        <appender-ref ref="SPRING_CONSOLE"/>
+    </root>
+</configuration>

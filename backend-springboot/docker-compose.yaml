@@ -1,0 +1,157 @@
+version: '3.8'
+services:
+
+  #========== FRONT END =========
+  # frontend:
+  #   image: bank-app-frontend:2.0
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     ENV_GATEWAY_HOST: "localhost"
+  #     ENV_GATEWAY_PORT: 8085
+
+  #   networks:
+  #     shared:
+
+  #========== GATE WAY =========
+  bank-gateway:
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile
+    image: bank-app-gateway:1.0
+    container_name: bank-gateway
+    ports:
+      - "8085:8085"
+    environment:
+      USER_API_HOST: user-api
+      USER_API_PORT: 8080
+
+      ACCOUNT_API_HOST: account-api
+      ACCOUNT_API_PORT: 8080
+
+#      SERVER_PORT: 8080
+
+    networks:
+      shared:
+
+
+  #========== ACCOUNT API =========
+  account-api:
+    build:
+      context: .
+      dockerfile: ./accountApi/Dockerfile
+    image: bank-app-account-api:1.0
+    container_name: bank-account-api
+
+    ports:
+      - "8082:8080"
+    environment:
+      DB_URL: jdbc:mysql://db-account:3306/userDb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: myuser
+      DB_PASSWORD: mypassword
+
+      AMPQ_HOST: rabbitmq
+      AMPQ_PORT : 5672
+      AMPQ_USER : guest
+      AMPQ_PASSWORD : guest
+
+      MYAPP_GRPC_SERVER_HOST : user-api
+      MYAPP_GRPC_SERVER_PORT: 9091
+
+      SERVER_PORT : 8080
+    depends_on:
+      db-account:
+        condition: service_healthy
+    networks:
+      shared:
+#
+  db-account:
+    image: 'mysql:8'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: userDb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3312:3306"
+    volumes:
+      - db_account_data:/var/lib/mysql
+    networks:
+      shared:
+
+
+#========== USER API =========
+
+  user-api:
+    build:
+      context: .
+      dockerfile: ./userApi/Dockerfile
+    image: bank-app-user-api:1.0
+    container_name: bank-user-api
+
+    ports:
+      - "8083:8080"
+    environment:
+      DB_URL : jdbc:mysql://db-user:3306/userDb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME : myuser
+      DB_PASSWORD : mypassword
+      SERVER_PORT : 8080
+    depends_on:
+      db-user:
+        condition: service_healthy
+    networks:
+      shared:
+
+  db-user:
+    image: 'mysql:8'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: userDb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+    - "3311:3306"
+    volumes:
+    - db_user_data:/var/lib/mysql
+    networks:
+      shared:
+
+#========== PAYMENT API =========
+  payment-api:
+    build:
+      context: .
+      dockerfile: ./paymentApi/Dockerfile
+    image: bank-app-payment-api:1.0
+    container_name: bank-payment-api
+
+    # ports:
+    #   - "8083:8080"  // no port binding needed, the payment service does not need to be exposed 
+    environment:
+
+      AMPQ_HOST: rabbitmq
+      AMPQ_PORT: 5672
+      
+      SERVER_PORT : 8080
+  
+    networks:
+      shared:
+
+networks:
+    shared:
+      external: true
+      name: aspspring-project-net
+#    name: bank-app-network   # Custom network name => persistent across restarts
+
+volumes:
+  db_user_data:
+  db_account_data:

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/account-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/accountApi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway_Webflux/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grpcMaven/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/paymentApi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sharedLibrary/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/testModule/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/untitled/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/userApi/src/main/java" charset="UTF-8" />
+  </component>
+</project>

@@ -1,0 +1,33 @@
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/grpcModule" />
+    <file type="web" url="file://$PROJECT_DIR$/paymentApp" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/userApi/pom.xml" />
+        <option value="$PROJECT_DIR$/accountApi/pom.xml" />
+        <option value="$PROJECT_DIR$/grpcMaven/pom.xml" />
+        <option value="$PROJECT_DIR$/testModule/pom.xml" />
+        <option value="$PROJECT_DIR$/paymentApi/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/account-api/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway_Webflux/pom.xml" />
+        <option value="$PROJECT_DIR$/grpcMaven/pom.xml" />
+        <option value="$PROJECT_DIR$/testModule/pom.xml" />
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/user-api/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
