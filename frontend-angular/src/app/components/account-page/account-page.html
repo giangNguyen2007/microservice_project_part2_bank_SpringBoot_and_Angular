@@ -44,7 +44,10 @@
 
     @for (account of this.bankAccounts(); track account.id) {
 
-      <div  #accountCard class="account-card" >
+      <div  #accountCard
+            [ngStyle]="{ 'background-color': selectedAccount() && selectedAccount()!.id === account.id ? 'goldenrod' : 'white' }"
+            class="account-card">
+
         <div class="account-row">
           <span class="label">ID:</span>
           <span class="value">{{ account.id}}</span>

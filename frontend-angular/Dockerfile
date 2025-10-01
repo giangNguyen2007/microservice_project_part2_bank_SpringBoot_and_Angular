@@ -1,7 +1,22 @@
-FROM nginx:alpine
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+RUN npm install -g @angular/cli
+
+COPY . .
+
+RUN ng build
+
+
+FROM nginx:alpine AS final
 
 #copy content of dist folder into nginx html folder
-COPY dist/bank_app/browser /usr/share/nginx/html
+COPY --from=builder app/dist/bank_app/browser /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

@@ -38,8 +38,14 @@
                 </div>
 
                 <div class="lower-section">
+                  <span  [ngStyle]="{ color: transaction.isDebit ? 'red' : 'green' }"  class="value">{{ transaction.isDebit ? "DEBIT" : "CREDIT"}}</span>
                   <span class="label">Description:</span>
                   <span class="value">{{ transaction.description }}</span>
+                </div>
+
+                <div class="lower-section">
+
+
                 </div>
 
 

@@ -2,7 +2,7 @@ import {Component, computed, effect, EventEmitter, inject, input, Input, OnInit,
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {map, Observable} from 'rxjs';
 import {User} from '../../Model/User';
-import {AsyncPipe, CurrencyPipe, DatePipe, NgIf, SlicePipe} from '@angular/common';
+import {AsyncPipe, CurrencyPipe, DatePipe, NgIf, NgStyle, SlicePipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {routes} from '../../app.routes';
@@ -19,6 +19,7 @@ import {TransactionService} from '../../services/transaction.service';
     SlicePipe,
     DatePipe,
     CurrencyPipe,
+    NgStyle,
   ],
   templateUrl: './transactions-section.html',
   styleUrl: './transactions-section.scss'
@@ -102,7 +103,7 @@ export class TransactionsSection {
       {
         next: ( () => {
 
-          alert("New Deposit Transaction creation successful");
+          alert("Transaction reussie");
           // update the transaction list after creating a new transaction
           this.transactionService.fetchTransaction( this.currentSelectedAccount()!.id );
 
@@ -116,7 +117,7 @@ export class TransactionsSection {
           console.log('Status: ' + (errorResponse.status ));
 
           console.log('Transaction creation failed, message : ' + (errorResponse.error ));
-          alert("Transaction creation failed: " + (errorResponse.error ));
+          alert("Transaction echoue: " + (errorResponse.error ));
 
         })
     });
@@ -138,7 +139,7 @@ export class TransactionsSection {
           // update the transaction list after creating a new transaction
           this.transactionService.fetchTransaction( this.currentSelectedAccount()!.id );
 
-          alert("New Transaction creation successful");
+          alert("Transaction reussie");
 
           // inform the parent component (account-page) that a new transaction has been created
           this.transactionCreated.emit( { accoutId : this.currentSelectedAccount()!.id, pendingAmount : amount } );
@@ -150,7 +151,7 @@ export class TransactionsSection {
           console.log('Status: ' + (errorResponse.status ));
 
           console.log('Transaction creation failed, message : ' + (errorResponse.error ));
-          alert("Transaction creation failed: " + (errorResponse.error ));
+          alert("Transaction echoue : " + (errorResponse.error ));
 
         })
 

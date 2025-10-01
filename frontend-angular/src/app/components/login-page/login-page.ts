@@ -59,8 +59,8 @@ export class LoginPage implements OnInit {
 
     this.loginForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
-        userName: ['giangNguyen', [Validators.required, Validators.maxLength(20)]],
-        password: ['myPassword', [Validators.required, Validators.minLength(6)]]
+        userName: ['', [Validators.required, Validators.maxLength(20)]],
+        password: ['', [Validators.required, Validators.minLength(6)]]
         //url: ['', [Validators.required, Validators.pattern(this.urlRegex)]],
 
       },{
@@ -72,16 +72,18 @@ export class LoginPage implements OnInit {
   }
 
   onLogin() {
+    const email = this.loginForm.get('email')?.value;
     const username = this.loginForm.get('userName')?.value;
     const password = this.loginForm.get('password')?.value;
 
     // Here you can handle the login logic, e.g., call an authentication service
-    console.log('Username:', username);
-    console.log('Password:', password);
+    // console.log('email:', email);
+    // console.log('Username:', username);
+    // console.log('Password:', password);
 
-    console.log('send login to server for user ' + username + ' with password ' + password) ;
+    //console.log('send login to server for user ' + username + ' with password ' + password) ;
 
-    this.authService.loginUser(username, 'giangNguyen@gmail.com', password).subscribe({
+    this.authService.loginUser(username, email, password).subscribe({
       next: (response => {
 
         alert("Login reussi ");
@@ -95,7 +97,7 @@ export class LoginPage implements OnInit {
       error: (error => {
         const errorResponse = error as HttpErrorResponse;
 
-        alert("Login failed: " + errorResponse.message);
+        alert("Login failed: " + errorResponse.error);
 
         console.log('Status: ' + (errorResponse.status ) );
 

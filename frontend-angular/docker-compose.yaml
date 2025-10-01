@@ -1,0 +1,22 @@
+services:
+
+  frontend-bankapp:
+    build:
+      context: .
+    image: frontend-bankapp:1.0
+    container_name: frontend-bankapp
+    ports:
+      - "80:80"
+
+    environment:
+      #     requests to backend are sent from brower process in host, not from container
+      ENV_GATEWAY_HOST: localhost
+      ENV_GATEWAY_PORT: 8050
+
+    networks:
+      shared:
+
+networks:
+  shared:
+    external: true
+    name: aspspring-project-net

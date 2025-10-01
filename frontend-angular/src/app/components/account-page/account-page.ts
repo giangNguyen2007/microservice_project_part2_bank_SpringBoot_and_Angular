@@ -2,7 +2,7 @@ import {Component, computed, effect,  signal,  ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Observable} from 'rxjs';
 import {User} from '../../Model/User';
-import { NgIf, SlicePipe} from '@angular/common';
+import {NgIf, NgStyle, SlicePipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -19,6 +19,7 @@ import {ConfigService} from '../../services/config.service';
     NgIf,
     TransactionsSection,
     IncomingTransactionSection,
+    NgStyle,
   ],
   templateUrl: './account-page.html',
   styleUrl: './account-page.scss'
@@ -137,25 +138,9 @@ export class AccountPage{
 
   // to be called by children, when new transaction is created
   onTransactionCreated(event: { accoutId: string; pendingAmount: number }){
-    alert('Transaction created event received in AccountPage for accountId: ' + event.accoutId + ', pendingAmount: ' + event.pendingAmount);
+    //alert('Transaction created event received in AccountPage for accountId: ' + event.accoutId + ', pendingAmount: ' + event.pendingAmount);
 
     this.bankAccountService.fetchAccounts();
-
-    // if (!this.bankAccounts()){
-    //   return;
-    // }
-    //
-    // // use the non null assertion operator " ! " to tell typescript that bankAccounts is not null
-    // const currentAccount : BankAccount[] = this.bankAccounts()!;
-    // const updatedAccounts = currentAccount?.map( account => {
-    //   if ( account.id === event.accoutId) {
-    //     return { ...account, pendingAmount: ( account.pendingTransactions) +  event.pendingAmount };
-    //   }
-    //   return account;
-    // }) ;
-    //
-    // this.bankAccountService.updateBankAccounts(updatedAccounts);
-
 
   }
 
