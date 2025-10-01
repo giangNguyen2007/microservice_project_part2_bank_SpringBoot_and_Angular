@@ -1,14 +1,14 @@
 // create a service FaceSnapService with the following properties and methods:
 import {computed, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {catchError, config, Observable, tap} from 'rxjs';
-import {User} from '../model/User';
-import {environment} from '../../environments/environment';
+import {catchError, Observable, tap} from 'rxjs';
+import {User} from '../Model/User';
 import {ConfigService} from './config.service';
 
 interface LoginResponse {
-  message : string;
   token: string;
+  name: string;
+  userId: string;
   role: string;
 }
 
@@ -20,8 +20,9 @@ interface LoginResponse {
 })
 export class AuthService {
 
-  // private apiUrl = environment.authAPiUrl;
-  private apiUrl = "";
+  // private apiUrl = 'http://localhost:8085';
+
+  public apiUrl = "";
 
   users$ !: Observable<User[]>;
 
@@ -33,7 +34,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
 
-    // this.apiUrl = this.configService.apiUrl + '/auth';
+    //this.apiUrl = this.configService.apiUrl + '/user';
+
+    // console.log(this.apiUrl);
+
 
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
@@ -43,56 +47,44 @@ export class AuthService {
       this.user.set(JSON.parse(savedUser));
     }
 
-
   }
 
+  // to be called by config service after loading config
   setUrl(url: string) : void {
-    this.apiUrl = url + '/auth';
+    this.apiUrl = url + '/user';
     console.log('AuthService apiUrl set to: ' + this.apiUrl);
   }
 
 
-  loginUser( email: string, password: string): void{
+  loginUser(name: string, email: string, password: string): Observable<LoginResponse> {
     // create a json object with email and password
-    const loginData = { email, password };
+    const loginData = { name, email, password };
 
-    const res = this.http.post<LoginResponse>(`${this.apiUrl}/login`, loginData);
+    console.log(this.apiUrl);
 
-    res.subscribe({
-      next: (response => {
-        console.log('login successful, token: ' + response.token);
-        console.log('login successful, role: ' + response.role);
+    return this.http.post<LoginResponse>(this.apiUrl + '/login', loginData).pipe(
+      tap(response => {
+
+        console.log('Login successful, token received: ' + response.token);
 
         this.token.set(response.token);
-        this.user.set({email: email, role: response.role as "normal" | "admin" | null});
+        this.user.set({userId: response.userId, name: response.name, email: response.name, role: response.role as "USER" | "ADMIN" | null});
 
         // save in local storage
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(this.user()));
 
-
-        this.loginMessage.set("Login successful");
-      }),
-
-      error: (error => {
-        const errorResponse = error as HttpErrorResponse;
-
-        console.log('login failed: ' + (errorResponse.error || errorResponse.statusText));
-
-        this.loginMessage.set("Login failed: " + (errorResponse.message || errorResponse.statusText));
-        // Handle error appropriately
-        throw error;
-      })
-
-    });
+      }));
 
   }
 
-  registerUser( email: string, password: string): Observable<any> {
+  registerUser(name: string, email: string, password: string): Observable<any>{
     // create a json object with email and password
-    const loginData = { email, password };
+    const registerData = { name, email, password };
 
-    return this.http.post<any>(`${this.apiUrl}/register`, loginData);
+    console.log(this.apiUrl);
+
+    return this.http.post<any>(this.apiUrl + '/register', registerData);
 
   }
 

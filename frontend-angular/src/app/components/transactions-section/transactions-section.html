@@ -1,0 +1,94 @@
+<div class="transaction-section">
+
+
+  <div  class="transaction-section-left" >
+
+    @if (!this.currentSelectedAccount()) {
+      <h3> Aucun compte selectionne</h3>
+    }
+
+    @else {
+
+        <h3>Historique de transactions pour le compte {{ this.currentSelectedAccount()!.id | slice:0:5}}</h3>
+
+        <div  *ngIf="this.transactionList() != null" class="transaction-list">
+
+            @for (transaction of this.transactionList()?.slice(0, 6); track transaction.id) {
+
+              <article  class="transaction-card"   >
+
+                <div class="upper-section">
+
+                  <div class="transaction-row">
+                    <span class="label">ID:</span>
+                    <span class="value">{{ transaction.id | slice:0:5}}</span>
+                  </div>
+                  <div class="transaction-row">
+                    <span class="value">{{ transaction.amount | currency : 'EUR'}}</span>
+                  </div>
+
+                  <div class="transaction-row">
+                    <span class="value">{{ transaction.status }}</span>
+                  </div>
+
+                  <div class="transaction-row">
+                    <span class="value">{{ transaction.createdAt | date :'short'}}</span>
+                  </div>
+
+                </div>
+
+                <div class="lower-section">
+                  <span class="label">Description:</span>
+                  <span class="value">{{ transaction.description }}</span>
+                </div>
+
+
+              </article>
+
+            }
+
+        </div>
+
+
+    }
+
+  </div>
+
+  <div class="transaction-section-right">
+
+    <h3> Realiser des transactions </h3>
+
+    <form [formGroup]="newDepositForm" >
+      <h3> Depot </h3>
+      <div>
+        <label > Montant </label>
+        <input type="number" formControlName="montant" >
+      </div>
+
+      <button [disabled]="!this.currentSelectedAccount()" type="submit" (click)="onDepotFormSubmit()" > Valider </button>
+    </form>
+
+    <form [formGroup]="newPaymentForm" >
+      <h3> Nouveau virement </h3>
+
+      <div>
+        <label > Compte beneficiaire</label>
+        <input type="text" formControlName="creditAccountId" >
+      </div>
+
+      <div>
+        <label > Montant</label>
+        <input type="number" formControlName="montant" >
+      </div>
+
+      <div>
+        <label > Description</label>
+        <input type="text" formControlName="description" >
+      </div>
+
+      <button [disabled]="!this.currentSelectedAccount()" type="submit" (click)="onTransferSubmit()" > Valider </button>
+    </form>
+
+  </div>
+
+</div>

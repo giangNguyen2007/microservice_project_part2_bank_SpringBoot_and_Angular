@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gng_learn_snapFace": {
+    "bank_app": {
       "projectType": "application",
-      "schematics": {
+      "serschematics": {
         "@schematics/angular:component": {
           "style": "scss",
           "skipTests": true
@@ -36,7 +36,6 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
-
         "build": {
           "builder": "@angular/build:application",
           "options": {
@@ -44,10 +43,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-
               "src/assets",
               {
-
                 "glob": "**/*",
                 "input": "public"
               }
@@ -84,10 +81,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gng_learn_snapFace:build:production"
+              "buildTarget": "bank_app:build:production"
             },
             "development": {
-              "buildTarget": "gng_learn_snapFace:build:development"
+              "buildTarget": "bank_app:build:development"
             }
           },
           "defaultConfiguration": "development"

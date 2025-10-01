@@ -8,9 +8,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
-import {authInterceptor} from './services/authInterceptor';
-import {initConfig} from '../main';
+import {authInterceptor} from './interceptor/authInterceptor';
 import {ConfigService} from './services/config.service';
+import {initConfig} from '../main';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,5 +27,6 @@ export const appConfig: ApplicationConfig = {
       deps: [ConfigService],
       multi: true
     }
+
   ]
 };

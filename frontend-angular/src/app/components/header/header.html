@@ -1,0 +1,13 @@
+<div class="header-container">
+  <p *ngIf="this.isAuthenticated()" routerLink="/comptes"  routerLinkActive="active" >comptes</p>
+
+  <p *ngIf="!this.isAuthenticated()" routerLink="/login" routerLinkActive="active">login</p>
+
+  <p *ngIf="this.isAuthenticated()" (click)="onLogoutClick()">logout</p>
+
+
+  <p *ngIf="!this.isAuthenticated()" routerLink="/register" routerLinkActive="active">register</p>
+
+
+</div>
+

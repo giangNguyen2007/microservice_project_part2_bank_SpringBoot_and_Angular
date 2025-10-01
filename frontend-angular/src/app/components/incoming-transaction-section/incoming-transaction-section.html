@@ -1,0 +1,73 @@
+
+
+<div class="transaction-section">
+
+
+  <div  class="transaction-section-left" >
+
+    @if (!this.currentSelectedAccount()) {
+      <h3> Aucun transaction a valider</h3>
+    }
+
+    @else {
+
+      <h3>Transactions a valider pour le compte {{ this.currentSelectedAccount()!.id | slice:0:5}}</h3>
+
+      <div  *ngIf="this.incomingTransactionList() != null" class="transaction-list">
+
+        @for (incomingTransaction of this.incomingTransactionList()?.slice(0, 5); track incomingTransaction.id) {
+
+          <article  class="transaction-card"   >
+
+            <div class="upper-section">
+
+              <div class="transaction-row">
+                <span class="label">ID:</span>
+                <span class="value">{{ incomingTransaction.id | slice:0:5}}</span>
+              </div>
+              <div class="transaction-row">
+                <span class="value">{{ incomingTransaction.amount | currency : 'EUR'}}</span>
+              </div>
+
+
+              <div class="transaction-row">
+                <span class="value">{{ incomingTransaction.createdAt | date :'short'}}</span>
+              </div>
+
+            </div>
+
+            <div class="lower-section">
+              <div>
+                <span class="label">Description : </span>
+                <span class="value">{{ incomingTransaction.description }}</span>
+              </div>
+
+              <div>
+                <span class="label">{{ incomingTransaction.validated ? "Valid" : "Invalid"}}</span>
+              </div>
+
+              <button [disabled]="incomingTransaction.validated" (click)="onValidationClick(incomingTransaction.id)" >
+                Valider
+              </button>
+
+              <button [disabled]="incomingTransaction.validated" (click)="onValidationClick(incomingTransaction.id)" >
+                Rejeter
+              </button>
+
+            </div>
+
+
+          </article>
+
+        }
+
+      </div>
+
+
+    }
+
+  </div>
+
+
+</div>
+

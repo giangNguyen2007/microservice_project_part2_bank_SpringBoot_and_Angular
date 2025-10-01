@@ -1,0 +1,97 @@
+<!--<p>login-page works!</p>-->
+<!--<p>config url = {{ this.configService.apiUrl }}</p>-->
+<div class="create-account-section">
+
+  <form class="create-account-form" [formGroup]="createAccountForm" >
+
+    <h3>Creer nouveau compte</h3>
+
+    <div>
+      <label for="email">UserId: {{ this.authService.getUsers()?.userId}}</label>
+    </div>
+
+    <div class ="sub-section">
+      <div>
+        <label for="dropdown">Type:  </label>
+
+        <select id="dropdown" formControlName="accountType">
+          @for (opt of this.options; track opt.value) {
+
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+
+      </div>
+
+      <!--    <button type="submit" (click)="onSubmit()"  [disabled]="loginForm.invalid">Submit</button>-->
+
+      <button [disabled]="!this.loginSuccess()"  type="submit" (click)="createAccount()" >Creer Compte</button>
+    </div>
+
+
+
+  </form>
+
+</div>
+
+<div  class="account-section">
+
+  <h2>Liste de comptes actives</h2>
+
+  <button [disabled]="!this.selectedAccount()" (click)="onUpdateClick()" > Mettre-a-jour </button>
+
+  <div  *ngIf="this.bankAccounts() != null" class="account-list">
+
+    @for (account of this.bankAccounts(); track account.id) {
+
+      <div  #accountCard class="account-card" >
+        <div class="account-row">
+          <span class="label">ID:</span>
+          <span class="value">{{ account.id}}</span>
+        </div>
+        <div class="account-row">
+          <span class="label">Balance:</span>
+          <span class="value">{{ account.balance }}</span>
+        </div>
+
+<!--        <div class="account-row">-->
+<!--          <span class="label">Pending change:</span>-->
+<!--          <span class="value">{{ account.pendingTransactions }}</span>-->
+<!--        </div>-->
+
+        <div class="account-row">
+          <span class="label">Type:</span>
+          <span class="value">{{ account.accountType }}</span>
+        </div>
+
+        <button  (click)="onAccountSelect(accountCard, account)">
+          Afficher
+        </button>
+      </div>
+
+    }
+
+  </div>
+</div>
+
+
+@if (this.selectedAccount() ) {
+
+  <transaction-section  #transactionsSection
+
+                        [currentSelectedAccount]="selectedAccount()"
+                        (transactionCreated)="onTransactionCreated($event)"
+  >
+
+  </transaction-section>
+
+  <incoming-transaction-section #incomingTransactionSection
+                                [currentSelectedAccount]="selectedAccount()"
+  >
+  </incoming-transaction-section>
+
+}
+
+
+
+
